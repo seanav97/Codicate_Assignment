@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component,useEffect } from 'react';
 import { Route, BrowserRouter as Router } from 'react-router-dom';
 import { InputGroup, FormControl, Button } from 'react-bootstrap';
 import BeerPrev from './BeerPrev';
@@ -6,6 +6,8 @@ import axios from 'axios';
 import Pagination from '@material-ui/lab/Pagination';
 import { useStore } from '../App'
 import { useObserver } from 'mobx-react';
+import { StoreContext } from '../App'
+
 
 
 
@@ -14,12 +16,18 @@ import '../styles/BrowsePage.css';
 
 function BrowsePage(props) {
 
-    const store = useStore();
+    // const store = useStore();
+    const store = React.useContext(StoreContext);
+
     const [searchValue,setSearchValue]=React.useState('bread');
     const [allBeers,setAllBeers]=React.useState([]);
     const [displayedBeers,setDisplayedBeers]=React.useState([]);
     const [page,setPage]=React.useState(1);
     const [pageCount,setPageCount]=React.useState(0);
+
+    useEffect(() => {
+        store.updateStore();
+      },[0]);
 
     const handleChange = (event) => {
         setSearchValue(event.target.value);
@@ -74,7 +82,7 @@ function BrowsePage(props) {
                 )} 
             <br></br> 
 
-            <div style={{clear:"left"}}>
+            <div style={{clear:"left",backgroundColor: 'rgba(83, 53, 33, 0.82)',display: 'inline-block',borderRadius: '25px'}}>
                 <Pagination color="primary" class="center" size="large" count={pageCount} showFirstButton showLastButton page={page} onChange={handlePageChange}/>
             </div> 
         </div>

@@ -28,6 +28,14 @@
   color: #61dafb;
 }
 
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-size: cover;
+  background-image: url('./assets/beer.png');
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

@@ -7,18 +7,23 @@ import emptyStar from '../assets/empty_star_icon.png'
 import hoverStar from '../assets/hover_star_icon.png'
 import { useStore } from '../App'
 import { useObserver } from 'mobx-react';
+import { StoreContext } from '../App'
+
 
 // props: id, name, img, favorite
 function BeerPrev(props) {
     // state = {
 
     // }
-    const store = useStore();
+    // const store = useStore();
+    const store = React.useContext(StoreContext);
+
     const [fav,setFav]=React.useState(props.fav);
 
     const clickFavorite = () => {
         setFav(!fav);
         store.changeFav(props.id);
+        store.updateLS();
         console.log(store.getFav);
     }
 

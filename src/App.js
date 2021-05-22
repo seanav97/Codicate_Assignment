@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component,useEffect } from 'react';
 import './App.css';
 import {Route,BrowserRouter as Router} from 'react-router-dom';
 import BrowsePage from './components/BrowsePage.js';
@@ -7,11 +7,18 @@ import Navigation from './components/Navigation.js';
 import beer from './assets/beer.png'
 import {useLocalStore, useObserver} from "mobx-react";
 
-const StoreContext=React.createContext();
+import { inject, observer } from 'mobx-react';
 
-const StoreProvider=({children})=>{
+if (localStorage.getItem("favorites") === null) {
+  localStorage.setItem('favorites',JSON.stringify([]));
+}
+
+
+export const StoreContext=React.createContext();
+
+export const StoreProvider=({children})=>{
   const store = useLocalStore(()=> ({
-    favorites:[],
+    favorites:[1,2,3],
     test:"blablabla",
     changeFav:(id)=>{
       let index = store.favorites.indexOf(id);
@@ -20,12 +27,21 @@ const StoreProvider=({children})=>{
       else
         store.favorites.splice(index, 1);
     },
+    updateLS:()=>{
+      localStorage.setItem('favorites',JSON.stringify(store.favorites));
+    },
+    updateStore:()=>{
+      store.favorites= JSON.parse(localStorage.getItem('favorites'));
+    },
     isFav:(id)=>{
       return store.favorites.includes(id);
     },
     get getFav(){
       return this.favorites;
-    }
+    },
+    empty:()=>{
+      store.favorites=[];
+    },
   }));
 
   return(
@@ -42,11 +58,10 @@ export const useStore = () => {
 }
 
 
-
 function App() {
   return (
     <StoreProvider>
-      <div className="App" style={{backgroundSize: 'cover',backgroundImage: `url(${beer})`}}>
+      <div className="App" style={{backgroundSize: 'cover',backgroundImage: `url(${beer})`,height: '100%'}}>
           <Router>
             <Navigation></Navigation>
           </Router>
@@ -55,6 +70,9 @@ function App() {
             <Route path='/favorites' exact component={FavPage}></Route>
           </Router>
       </div>
+      <script src="https://unpkg.com/mobx-react-devtools"></script>
+
+
     </StoreProvider>
   );
 }
