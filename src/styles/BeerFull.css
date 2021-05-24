@@ -1,0 +1,32 @@
+body {
+    /* margin: 0;
+    padding: 0;
+    height: 100%;
+    background-size: cover;
+    background-image: url('../assets/background.jpg'); */
+  }
+
+  .color-box {
+    width: 15px;
+    height: 15px;
+    /* display: inline-block; */
+    /* position: relative; */
+    /* display: flex; */
+    /* text-align: center; */
+    /* justify-content: center; */
+    /* background-color: #ccc; */
+    /* position: absolute; */
+    /* left: 5px; */
+    /* top: 5px; */
+}
+.center {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    /* align-items: center; */
+    /* height:100vh; */
+}
+.list-group-item
+{
+  height: 30%;
+}

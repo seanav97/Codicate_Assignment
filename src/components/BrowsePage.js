@@ -1,25 +1,18 @@
-import React, { Component,useEffect } from 'react';
-import { Route, BrowserRouter as Router } from 'react-router-dom';
-import { InputGroup, FormControl, Button } from 'react-bootstrap';
+import React, { useEffect } from 'react';
+import { FormControl, Button } from 'react-bootstrap';
 import BeerPrev from './BeerPrev';
 import axios from 'axios';
 import Pagination from '@material-ui/lab/Pagination';
-import { useStore } from '../App'
 import { useObserver } from 'mobx-react';
 import { StoreContext } from '../App'
-
-
-
-
 
 import '../styles/BrowsePage.css';
 
 function BrowsePage(props) {
 
-    // const store = useStore();
     const store = React.useContext(StoreContext);
 
-    const [searchValue,setSearchValue]=React.useState('bread');
+    const [searchValue,setSearchValue]=React.useState('');
     const [allBeers,setAllBeers]=React.useState([]);
     const [displayedBeers,setDisplayedBeers]=React.useState([]);
     const [page,setPage]=React.useState(1);
@@ -34,6 +27,12 @@ function BrowsePage(props) {
     }
     const handlePageChange = (event, value) => {
         setPage(value);
+
+        allBeers.forEach(beer => {
+            if(store.isFav(beer.id))
+                beer.favorite=true;
+        });
+
         setDisplayedBeers(allBeers.slice((value-1)*6,(value-1)*6+6));
     }
 
@@ -76,9 +75,8 @@ function BrowsePage(props) {
             </div>
             <br></br>
             <br></br>
-
                 {displayedBeers.map(beer =>
-                    <BeerPrev key={beer.id} id={beer.id} img={beer.image_url} title={beer.name} fav={beer.favorite}/>
+                    <BeerPrev key={beer.id} id={beer.id} img={beer.image_url} title={beer.name} fav={beer.favorite} rating={'na'}/>
                 )} 
             <br></br> 
 

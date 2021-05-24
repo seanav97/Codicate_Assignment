@@ -11,6 +11,7 @@ import { inject, observer } from 'mobx-react';
 
 if (localStorage.getItem("favorites") === null) {
   localStorage.setItem('favorites',JSON.stringify([]));
+  localStorage.setItem('ratings',JSON.stringify([]));
 }
 
 
@@ -18,20 +19,27 @@ export const StoreContext=React.createContext();
 
 export const StoreProvider=({children})=>{
   const store = useLocalStore(()=> ({
-    favorites:[1,2,3],
-    test:"blablabla",
+    favorites:[],
+    ratings:[],
     changeFav:(id)=>{
       let index = store.favorites.indexOf(id);
-      if(index==-1)
+      if(index==-1){
         store.favorites.push(id);
-      else
+        store.ratings.push('');
+      }
+      else{
         store.favorites.splice(index, 1);
+        store.ratings.splice(index, 1);
+      }
+      store.updateLS();
     },
     updateLS:()=>{
       localStorage.setItem('favorites',JSON.stringify(store.favorites));
+      localStorage.setItem('ratings',JSON.stringify(store.ratings));
     },
     updateStore:()=>{
       store.favorites= JSON.parse(localStorage.getItem('favorites'));
+      store.ratings= JSON.parse(localStorage.getItem('ratings'));
     },
     isFav:(id)=>{
       return store.favorites.includes(id);
@@ -41,6 +49,17 @@ export const StoreProvider=({children})=>{
     },
     empty:()=>{
       store.favorites=[];
+      store.ratings=[];
+      store.updateLS();
+    },
+    setRanking:(id,rank)=>{
+      let index = store.favorites.indexOf(id);
+      store.ratings[index]=rank;
+      store.updateLS();
+    },
+    getRating(id){
+      let index = store.favorites.indexOf(id);
+      return store.ratings[index];
     },
   }));
 

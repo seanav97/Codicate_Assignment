@@ -1,42 +1,27 @@
-import React, { Component, useEffect,componentDidMount } from 'react';
-import { Route, BrowserRouter as Router } from 'react-router-dom';
-import { InputGroup, FormControl, Button } from 'react-bootstrap';
+import React, { useEffect } from 'react';
+import { Button } from 'react-bootstrap';
 import BeerPrev from './BeerPrev';
+
 import axios from 'axios';
-import Pagination from '@material-ui/lab/Pagination';
-import { useStore } from '../App'
 import { StoreContext } from '../App'
 import { useObserver } from 'mobx-react';
-import { confirmAlert } from 'react-confirm-alert'; // Import
-import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
-
-
-
-import '../styles/BrowsePage.css';
 
 function FavPage(props) {
 
-  // const store = useStore();
   const store = React.useContext(StoreContext);
   const [favoriteBeers,setFavoriteBeers]=React.useState([]);
-    // let favoriteBeers=[];
     
     useEffect(() => {
       store.updateStore();
       getBeers();
     },[0]);
-
-    const componentDidMount=() => {
-    };
-    
-    
     
     const getBeers = async() => {
       
       let ids=store.getFav;
-      console.log(store.getFav);
-      console.log(ids);
       let idsString="";
       ids.forEach(id => {
         idsString=idsString+id+"|";
@@ -52,8 +37,6 @@ function FavPage(props) {
       
       beers=beers.data.map(v => ({...v,favorite:true}))
       
-      console.log(beers);
-      // return beers;
       setFavoriteBeers(beers);
       
     }
@@ -62,13 +45,11 @@ function FavPage(props) {
 
       confirmAlert({
         title: 'Are you sure you want to remove all your favorites?',
-        // message: 'Are you sure you want to remove all your favorites?',
         buttons: [
           {
             label: 'Yes',
             onClick: () => {
               store.empty();
-              store.updateLS();
               setFavoriteBeers([]);
             }
           },
@@ -79,24 +60,18 @@ function FavPage(props) {
         ]
       });
       
-      
-      
     }
 
-
     return useObserver(()=>(
-        <div>
+      <div>
             <h1 style={{ fontFamily: "Comic Sans MS", color:'white' }}>Your Favorite Beers</h1>
-            <br></br>
-            <Button onClick={removeAll} style={{ display: 'flex', float:'right' }} variant="primary">Remove all</Button>
-
+            <Button onClick={removeAll} style={{  }} variant="primary">Remove all</Button>
+            <br></br> 
             <br></br>
 
             {favoriteBeers.map(beer =>
-                <BeerPrev key={beer.id} id={beer.id} img={beer.image_url} title={beer.name} fav={beer.favorite}/>
+              <BeerPrev key={beer.id} id={beer.id} img={beer.image_url} title={beer.name} fav={beer.favorite} rating={store.getRating(beer.id)}/>
             )} 
-            <br></br> 
-
         </div>
     ));
 }

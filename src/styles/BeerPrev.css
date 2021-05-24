@@ -40,3 +40,7 @@
     transform: scale(1.2);
     z-index: 10;
   }
+
+  .modal-body {
+    background-image: url('../assets/background.jpg');
+ }
