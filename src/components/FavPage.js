@@ -13,6 +13,8 @@ function FavPage(props) {
 
   const store = React.useContext(StoreContext);
   const [favoriteBeers,setFavoriteBeers]=React.useState([]);
+  const [foundBeers,setFoundBeers]=React.useState(true);
+
     
     useEffect(() => {
       store.updateStore();
@@ -20,29 +22,30 @@ function FavPage(props) {
     },[0]);
     
     const getBeers = async() => {
-      
       let ids=store.getFav;
       let idsString="";
       ids.forEach(id => {
         idsString=idsString+id+"|";
       });
       idsString = idsString.slice(0, -1);
-      
-      
-      let beers = await axios.get(`https://api.punkapi.com/v2/beers`, {
-        params: {
-          ids: idsString
-        }
-      });
-      
-      beers=beers.data.map(v => ({...v,favorite:true}))
-      
-      setFavoriteBeers(beers);
-      
+      try{
+          let beers = await axios.get(`https://api.punkapi.com/v2/beers`, {
+            params: {
+              ids: idsString
+            }
+          });
+          beers=beers.data.map(v => ({...v,favorite:true}))
+          setFavoriteBeers(beers);
+          setFoundBeers(true);
+
+         if(beers[0]==undefined) setFoundBeers(false);;
+      }
+      catch(err){
+        setFoundBeers(false);
+      }
     }
 
     const removeAll = () => {
-
       confirmAlert({
         title: 'Are you sure you want to remove all your favorites?',
         buttons: [
@@ -59,7 +62,6 @@ function FavPage(props) {
           }
         ]
       });
-      
     }
 
     return useObserver(()=>(
@@ -69,9 +71,13 @@ function FavPage(props) {
             <br></br> 
             <br></br>
 
-            {favoriteBeers.map(beer =>
+            {foundBeers && favoriteBeers.map(beer =>
               <BeerPrev key={beer.id} id={beer.id} img={beer.image_url} title={beer.name} fav={beer.favorite} rating={store.getRating(beer.id)}/>
-            )} 
+            )}
+            {!foundBeers &&
+              <b><h1 style={{color:'rgba(255,255,255,0.4)',fontSize:'100px'}}>No results found</h1></b>
+
+            }
         </div>
     ));
 }

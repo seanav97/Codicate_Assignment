@@ -5,7 +5,6 @@ import BeerIcon from '../assets/beer_icon.png';
 function Navigation() {
     return (
         <div>
-
             <Navbar bg="dark" variant="dark">
                 <img src={BeerIcon} width="50" height="50" className="d-inline-block align-top" alt="React Bootstrap logo"/>
                 <Navbar.Brand href="/">Punk Beers</Navbar.Brand>
@@ -17,7 +16,6 @@ function Navigation() {
 
             </Navbar>
         </div>
-
     );
 }
 

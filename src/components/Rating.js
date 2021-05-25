@@ -6,7 +6,6 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { StoreContext } from '../App'
 
-
 const useStyles = makeStyles((theme) => ({
     formControl: {
         margin: theme.spacing(1),

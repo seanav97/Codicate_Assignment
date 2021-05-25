@@ -1,13 +1,12 @@
-import React, { Component,useEffect } from 'react';
+import React from 'react';
 import './App.css';
 import {Route,BrowserRouter as Router} from 'react-router-dom';
 import BrowsePage from './components/BrowsePage.js';
 import FavPage from './components/FavPage.js';
 import Navigation from './components/Navigation.js';
 import beer from './assets/beer.png'
-import {useLocalStore, useObserver} from "mobx-react";
+import {useLocalStore} from "mobx-react";
 
-import { inject, observer } from 'mobx-react';
 
 if (localStorage.getItem("favorites") === null) {
   localStorage.setItem('favorites',JSON.stringify([]));

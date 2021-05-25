@@ -8,10 +8,9 @@ import { useObserver } from 'mobx-react';
 import { StoreContext } from '../App'
 import BeerFull from './BeerFull';
 import Rating from './Rating';
+import DefalutBeer from '../assets/defalut_beer.png';
 
 import '../styles/BeerPrev.css';
-
-
 
 // props: id, name, img, favorite
 function BeerPrev(props) {
@@ -19,8 +18,6 @@ function BeerPrev(props) {
     const [showModal, setShowModal] = React.useState(false);
     const handleClose = () => setShowModal(false);
     const handleShow = () => setShowModal(true);
-
-
     const [fav,setFav]=React.useState(props.fav);
 
     const clickFavorite = () => {
@@ -29,20 +26,18 @@ function BeerPrev(props) {
     }
 
     return useObserver(()=>(
-            <div style={{backgroundColor: 'rgba(143, 187, 190, 0.7)'}} class="card">
+            <div style={{backgroundColor: 'rgba(143, 187, 190, 0.7)', borderRadius:'25px'}} className="card">
                 
-                <img onClick={handleShow} src={props.img} width="25%" height="200" />
-
-                <img class="star" width="45" height="45" src={fav ? fullStar  : emptyStar}
+                <img onClick={handleShow} src={props.img==null ? DefalutBeer  : props.img} width="25%" height="200" style={{cursor: 'pointer'}} />
+                <img className="star" width="45" height="45" src={fav ? fullStar  : emptyStar}
                     onMouseOver={e => e.currentTarget.src = hoverStar}
                     onMouseOut={e => e.currentTarget.src = fav ? fullStar  : emptyStar}
                     onClick={clickFavorite}
                 />
                 <h4>{props.title}</h4>
-
                 <Modal  show={showModal} onHide={handleClose}>
                     <Modal.Body>
-                            <BeerFull title={props.title} id={props.id} image={props.img}></BeerFull>
+                            <BeerFull title={props.title} id={props.id} image={props.img==null ? DefalutBeer  : props.img}></BeerFull>
                     </Modal.Body>
                 </Modal>
                 {props.rating != 'na' &&
@@ -51,7 +46,6 @@ function BeerPrev(props) {
                     </div>
                 }
             </div>
-
     ));
 }
 

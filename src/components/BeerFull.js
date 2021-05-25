@@ -11,18 +11,12 @@ function BeerFull(props) {
     const [foodPairing, setFoodPairing] = React.useState([]);
     const [tagLine, setTagLine] = React.useState("");
     const [beerColor, setBeerColor] = React.useState("aaa");
-
-
     const [colors, setColors] = React.useState([{ id: 1, color: '#F3F993' }, { id: 2, color: '#F5F75C' }, { id: 3, color: '#F6F513' }, { id: 4, color: '#EAE615' }, { id: 5, color: '#E0D01B' }, { id: 6, color: '#D5BC26' }, { id: 7, color: '#CDAA37' }, { id: 8, color: '#C1963C' }, { id: 9, color: '#BE8C3A' }, { id: 10, color: '#BE823A' }, { id: 11, color: '#C17A37' }, { id: 12, color: '#BF7138' }, { id: 13, color: '#BC6733' }, { id: 14, color: '#B26033' }, { id: 15, color: '#A85839' }, { id: 16, color: '#985336' }, { id: 17, color: '#8D4C32' }, { id: 18, color: '#7C452D' }, { id: 19, color: '#6B3A1E' }, { id: 20, color: '#5D341A' }, { id: 21, color: '#4E2A0C' }, { id: 22, color: '#4A2727' }, { id: 23, color: '#361F1B' }, { id: 24, color: '#261716' }, { id: 25, color: '#231716' }, { id: 26, color: '#19100F' }, { id: 27, color: '#16100F' }, { id: 28, color: '#120D0C' }, { id: 29, color: '#100B0A' }, { id: 30, color: '#050B0A' }]);
-
-
-
 
     useEffect(() => {
         getBeerDetails();
 
     }, [0]);
-
 
     const getBeerDetails = async () => {
         const beer = await axios.get(`https://api.punkapi.com/v2/beers/` + props.id, {
@@ -55,7 +49,6 @@ function BeerFull(props) {
                 <h1 style={{ fontSize: '30px' }}>{props.title}</h1>
                 <i>{tagLine}</i>
             </div>
-
             <div style={{ borderStyle: 'solid', left: '190px', position: 'absolute', bottom: '20px', right: '30px' }}>
                 <div>
                     <OverlayTrigger placement='top' overlay={<Tooltip>Beer color</Tooltip>}>
@@ -72,12 +65,11 @@ function BeerFull(props) {
                 <br></br>
                 <br></br>
                 <br></br>
-
                 <div>
                     <ListGroup.Item style={{ textAlign: 'center' }} variant="dark"><u>Pairs excelently with:</u></ListGroup.Item>
                     <ListGroup style={{ width: "100%", textAlign: 'center', fontSize: '13px' }}>
                         {foodPairing.map((pairing, index) =>
-                            <ListGroup.Item class="listitem" key={index}>{pairing}</ListGroup.Item>
+                            <ListGroup.Item className="listitem" key={index}>{pairing}</ListGroup.Item>
                         )}
                     </ListGroup>
                 </div>
